@@ -44,6 +44,7 @@ class LoginViewController: UIViewController {
             titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 50),
             titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 
+
             emailLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 106),
             emailLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 33),
 
@@ -181,15 +182,12 @@ class LoginViewController: UIViewController {
     }
 
     @objc private func loginTapped() {
-        let username = emailTextField.text ?? ""
-        let password = passwordTextField.text ?? ""
-
-        if username == "123" && password == "123" {
-            // Redirect to the Questionnaire page MUST REMOVE LATER
-            let questionnaireVC = QuestionnaireViewController()
-            navigationController?.pushViewController(questionnaireVC, animated: true)
-        } else {
-            showAlert(title: "Error", message: "Invalid credentials")
+        viewModel.login { [weak self] success in
+            if success {
+                self?.showAlert(title: "Success", message: "Login Successful")
+            } else {
+                self?.showAlert(title: "Error", message: "Invalid credentials")
+            }
         }
     }
 
